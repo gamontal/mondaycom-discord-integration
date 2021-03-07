@@ -1,0 +1,42 @@
+const { AuthorizationCode } = require('simple-oauth2');
+const { cache, cacheKeys } = require('./cache-service');
+
+const getAuthorizationUrl = (state) => {
+  const client = getClient();
+
+  const authorizationUrl = client.authorizeURL({
+    redirect_uri: getRedirectUri(),
+    permissions: 3072,
+    scope: 'bot',
+    state
+  });
+
+  return authorizationUrl;
+};
+
+const getUserAuth = async (code) => {
+  const client = getClient();
+  const response = await client.getToken({ code, redirect_uri: getRedirectUri() });
+
+  return response.token;
+};
+
+const getClient = () => {
+  return new AuthorizationCode({
+    client: {
+      id: process.env.CLIENT_ID,
+      secret: process.env.CLIENT_SECRET
+    },
+    auth: {
+      tokenHost: process.env.TOKEN_HOST,
+      tokenPath: process.env.TOKEN_PATH,
+      authorizePath: process.env.AUTHORIZE_PATH
+    }
+  });
+};
+
+const getRedirectUri = () => {
+  return `${cache.get(cacheKeys.SERVER_URL)}/auth/discord/redirect`;
+};
+
+module.exports = { getAuthorizationUrl, getUserAuth };
