@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
+const mondayService = require('../services/monday-service');
 
-const getChannels = async (discordGuildId) => {
+const getChannels = async (discordGuildId) => { //TODO: Change parameter to guildId instead of discordGuildId
   const channelsRes = await fetch(`https://discord.com/api/guilds/${discordGuildId}/channels`, {
     headers: { authorization: `Bot ${process.env.BOT_TOKEN}` }
   }); 
@@ -21,27 +22,47 @@ const getChannels = async (discordGuildId) => {
   return options;
 };
 
-const postMessage = async (channelId, text) => {
-  const message =
+const postMessage = async (shortLivedToken, messageType, inputFields) => {
+  const { channel, userId, boardId, itemId, text, message } = inputFields;
+  const accountSlug = await mondayService.getAccountSlug(shortLivedToken, boardId);
+  const user = await mondayService.getUser(shortLivedToken, userId);
+  const board = await mondayService.getBoard(shortLivedToken, boardId);
+  const item = await mondayService.getItem(shortLivedToken, itemId);
+
+  const channelId = channel.value;
+  var channelMessageContent =
   {
     tts: false,
+    content: '',
     embed: {
-      title: 'Update', //TODO: Make this value dynamic
-      description: text //TODO: Make this value dynamic
-    },
-    content: '' //TODO: Make this value dynamic
+      title: '',
+      description: `[View the pulse on monday.com](https://${accountSlug}.monday.com/boards/${boardId}/pulses/${itemId}?)`
+    }
   };
 
-  await fetch(`https://discord.com/api/channels/${channelId}/messages`, {
+  switch(messageType) {
+    case 'notify':
+      channelMessageContent.content = message;
+      break;
+    case 'update':
+      channelMessageContent.content = `${user.name} updated ${item.name} on ${board.name} board`;
+      channelMessageContent.embed.title = 'Update:';
+      channelMessageContent.embed.description = `${text}\n\n${channelMessageContent.embed.description}`
+      break;
+    default:
+      break;
+  }
+
+  const sendMessage = await fetch(`https://discord.com/api/channels/${channelId}/messages`, {
     method: 'POST',
-    body: JSON.stringify(message),
+    body: JSON.stringify(channelMessageContent),
     headers: { 
       authorization: `Bot ${process.env.BOT_TOKEN}`,
       'content-type': 'application/json'
     }
-  }); 
-
-  return JSON.stringify(message);
+  });
+  
+  return JSON.stringify(channelMessageContent);
 };
 
 module.exports = {

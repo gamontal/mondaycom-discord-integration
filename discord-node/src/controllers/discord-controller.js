@@ -15,13 +15,15 @@ async function getChannelListOptions(req, res) {
   }
 }
 
-async function postMessage(req, res) { //TODO: Create a route for each message type, instead of a global postMessage function
+async function postMessage(req, res) {
+  const { shortLivedToken } = req.session;
+  const { messageType } = req.params;
   const { inputFields } = req.body.payload;
 
-  try {
-    const { channel, text } = inputFields;
-    await discordService.postMessage(channel.value, text);
+  console.log(req.body.payload) //TODO: remove
 
+  try {
+    await discordService.postMessage(shortLivedToken, messageType, inputFields);
     return res.status(200).send();
   } catch (err) {
     console.error(err);
