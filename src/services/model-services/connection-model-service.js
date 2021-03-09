@@ -10,12 +10,12 @@ const getConnectionByUserId = async (userId) => {
 };
 
 const createConnection = async (attributes) => {
-  const { userId, token, discordGuildId } = attributes;
+  const { userId, token, guildId } = attributes;
   try {
     const connection = await Connection.create({
       token,
       userId,
-      discordGuildId
+      guildId
     });
     return connection;
   } catch (err) {
@@ -24,10 +24,10 @@ const createConnection = async (attributes) => {
 };
 
 const updateConnection = async (connectionId, updates) => {
-  const { userId, token, discordGuildId } = updates;
+  const { userId, token, guildId } = updates;
   try {
     const connection = await Connection.update(
-      { userId, token, discordGuildId },
+      { userId, token, guildId },
       {
         where: {
           id: connectionId,

@@ -14,7 +14,7 @@ module.exports = {
       token: {
         type: Sequelize.STRING,
       },
-      discordGuildId: {
+      guildId: {
         type: Sequelize.STRING,
       },
       createdAt: {

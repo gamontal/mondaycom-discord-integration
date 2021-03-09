@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.STRING,
       token: DataTypes.STRING,
-      discordGuildId: DataTypes.STRING
+      guildId: DataTypes.STRING
     },
     {
       sequelize,

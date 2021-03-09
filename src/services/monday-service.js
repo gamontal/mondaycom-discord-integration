@@ -71,7 +71,12 @@ const getItem = async (token, itemId) => {
 
     const query = `query($itemId: [Int]) {
         items (ids: $itemId) {
-          name
+          name,
+          group { title }
+          column_values() {
+            id
+            text
+          }
         }
       }`;
     

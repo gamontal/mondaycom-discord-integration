@@ -6,7 +6,7 @@ const getAuthorizationUrl = (state) => {
 
   const authorizationUrl = client.authorizeURL({
     redirect_uri: getRedirectUri(),
-    permissions: 3072,
+    permissions: 3072, // Bot permission to List Channels and Send Messages to Discord
     scope: 'bot',
     state
   });
@@ -36,7 +36,7 @@ const getClient = () => {
 };
 
 const getRedirectUri = () => {
-  return `${cache.get(cacheKeys.SERVER_URL)}/auth/discord/redirect`;
+  return `${cache.get(cacheKeys.SERVER_URL)}/auth/integration/redirect`;
 };
 
 module.exports = { getAuthorizationUrl, getUserAuth };
