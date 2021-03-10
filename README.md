@@ -5,6 +5,8 @@ With over a **quarter of a billion users**, from gamers and programmers to educa
 
 ## What it does
 - When you create a new task, change a status, or finish a project in monday.com, notify your entire server channel or individual members in Discord instantly.
+  - ![Alt Text](https://media.giphy.com/media/Q08eN9EmcTY8WSc7fO/giphy.gif)
+
 - Stay in the loop when due dates are updated in monday.com and instantly notify an entire channel or individual members in Discord.
 - Instantly communicate updates and conversations from monday.com to your entire Discord channel or individual members.
 
