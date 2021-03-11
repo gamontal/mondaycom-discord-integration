@@ -218,4 +218,4 @@ vault/logs
 vault/policies
 vault/tmp
 
-
+.env
