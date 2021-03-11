@@ -24,8 +24,8 @@ const getUserAuth = async (code) => {
 const getClient = () => {
   return new AuthorizationCode({
     client: {
-      id: process.env.CLIENT_ID,
-      secret: process.env.CLIENT_SECRET
+      id: process.env.DISCORD_CLIENT_ID,
+      secret: process.env.DISCORD_CLIENT_SECRET
     },
     auth: {
       tokenHost: process.env.TOKEN_HOST,
