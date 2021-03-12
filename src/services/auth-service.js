@@ -36,7 +36,7 @@ const getClient = () => {
 };
 
 const getRedirectUri = () => {
-  return `${cache.get(cacheKeys.SERVER_URL)}/auth/integration/redirect`;
+  return `${process.env.SERVER_URL}/auth/integration/redirect`;
 };
 
 module.exports = { getAuthorizationUrl, getUserAuth };
