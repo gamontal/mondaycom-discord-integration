@@ -1,5 +1,4 @@
 const { AuthorizationCode } = require('simple-oauth2');
-const { cache, cacheKeys } = require('./cache-service');
 
 const getAuthorizationUrl = (state) => {
   const client = getClient();

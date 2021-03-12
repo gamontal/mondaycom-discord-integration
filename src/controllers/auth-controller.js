@@ -1,4 +1,3 @@
-const { cache, cacheKeys } = require('../services/cache-service');
 const authService = require('../services/auth-service');
 const connectionModelService = require('../services/model-services/connection-model-service');
 
@@ -8,7 +7,7 @@ const authorize = async (req, res) => {
   const authorizationUrl = authService.getAuthorizationUrl(backToUrl);
 
   // Store the user session callback URL in a cookie for later use
-  res.cookie('callbackUrl', `${cache.get(cacheKeys.SERVER_URL)}/auth/callback/${userId}`);
+  res.cookie('callbackUrl', `${process.env.SERVER_URL}/auth/callback/${userId}`);
 
   return res.redirect(authorizationUrl);
 };
